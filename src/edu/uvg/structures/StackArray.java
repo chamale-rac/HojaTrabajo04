@@ -43,7 +43,7 @@ public class StackArray<T> implements IStack<T> {
 
 	@Override
 	public int count() {
-		return coreArray.length;
+		return coreArrayTop + 1;
 	}
 
 	@Override

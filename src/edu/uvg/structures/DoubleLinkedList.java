@@ -132,7 +132,7 @@ public class DoubleLinkedList<T> implements IList<T> {
             //doing the insertion
             pretemp.setNext(temp.getNext());
             pretemp.setPrevious(temp.getPrevious());
-            count++;
+            count--;
             return temp.getValue();
         }
         else
@@ -181,7 +181,7 @@ public class DoubleLinkedList<T> implements IList<T> {
 			
 			else 
 			{
-				DoubleNode<T> temp = start;
+				DoubleNode<T> temp = end;
 				end = end.getPrevious();
 				count--;
 				return temp.getValue();				

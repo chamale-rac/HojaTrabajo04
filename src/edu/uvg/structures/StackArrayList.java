@@ -4,7 +4,6 @@
 package edu.uvg.structures;
 
 import java.util.ArrayList;
-
 /**
  * @author moises.alonso
  *
