@@ -3,8 +3,6 @@
  */
 package edu.uvg.structures;
 
-import jdk.internal.org.objectweb.asm.tree.MultiANewArrayInsnNode;
-
 /**
  * @author MAAG
  *
@@ -31,6 +29,7 @@ public class DoubleLinkedList<T> implements IList<T> {
 			end = newNode;
 			start.setNext(start);
 			start.setPrevious(start);
+			
 		} else {
 			
 			newNode.setNext(start);
@@ -54,6 +53,7 @@ public class DoubleLinkedList<T> implements IList<T> {
 			end = newNode;
 			start.setNext(start);
 			start.setPrevious(start);
+			
 		} else {
 			
 			newNode.setPrevious(end);
@@ -109,19 +109,85 @@ public class DoubleLinkedList<T> implements IList<T> {
 
 	@Override
 	public T Delete(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		if (index == 0)
+        {
+            return DeleteAtStart();
+        }
+        else if (index == (Count() - 1))
+        {
+            return DeleteAtEnd();
+        }
+        else if ((index > 0) && (index < Count()))  {
+            DoubleNode<T> pretemp = start;
+            DoubleNode<T> temp = start;
+            int i = 0;
+
+            //Search the position where the node will be inserted
+            while ((temp != null) && (i < index)) {
+                pretemp = temp;
+                temp = temp.getNext();
+                i++;
+            }
+
+            //doing the insertion
+            pretemp.setNext(temp.getNext());
+            pretemp.setPrevious(temp.getPrevious());
+            count++;
+            return temp.getValue();
+        }
+        else
+        {
+            return null;
+        }
 	}
 
 	@Override
 	public T DeleteAtStart() {
-		// TODO Auto-generated method stub
+		if (!IsEmpty())
+		{
+			if (Count() == 1) 
+			{
+				DoubleNode<T> temp = start;
+				start = null;
+				end = null;
+				count--;
+				return temp.getValue();
+			}
+			
+			else 
+			{
+				DoubleNode<T> temp = start;
+				start = start.getNext();
+				count--;
+				return temp.getValue();				
+			}
+			
+		}
 		return null;
 	}
 
 	@Override
 	public T DeleteAtEnd() {
-		// TODO Auto-generated method stub
+		if (!IsEmpty())
+		{
+			if (Count() == 1) 
+			{
+				DoubleNode<T> temp = start;
+				start = null;
+				end = null;
+				count--;
+				return temp.getValue();
+			}
+			
+			else 
+			{
+				DoubleNode<T> temp = start;
+				end = end.getPrevious();
+				count--;
+				return temp.getValue();				
+			}			
+			
+		}
 		return null;
 	}
 
