@@ -62,6 +62,7 @@ public class TextFileManager {
             extension = path.substring(i + 1);
         }
 
+        
         return extension;
     }
 
