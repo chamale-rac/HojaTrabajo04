@@ -23,8 +23,8 @@ public class Main {
 		Scanner myScanner = new Scanner(System.in);
 		
 	    boolean allCorrect = false;
-		String FilePath, StackType, ListType, End;
-		ArrayList<String> myDoc;        
+		String FilePath, StackType = "", ListType = "", End;
+		ArrayList<String> myDoc = new ArrayList<String>();        
 
         System.out.println("\n//INFIX CALC//"); 	
         
@@ -90,9 +90,10 @@ public class Main {
     		}             
         }
         
+        myDoc.clear();
         System.out.print("\nFinish the program? [Write 'y' to confirm]:\r\n"
 				+ ">> ");
-		End = myScanner.nextLine();
+		End = myScanner.nextLine();		
 		if(End.equals("y")) {
 			finishProgram = true;
 		}
