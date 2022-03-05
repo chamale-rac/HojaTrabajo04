@@ -15,19 +15,19 @@ import edu.uvg.structures.StackVector;
  */
 public class StackInstanceCreator {
 	
-	public IStack<String> getInstance(String StackType, int Size){
+	public IStack<Float> getInstance(String StackType, int Size){
 		
-		IStack<String> uniqueStack;
+		IStack<Float> uniqueStack;
 		
 		switch(StackType) {
 			case "1": 
-				uniqueStack = new StackVector<String>();
+				uniqueStack = new StackVector<Float>();
 				break;
 			case "2": 
-				uniqueStack = new StackArray<String>(Size);
+				uniqueStack = new StackArray<Float>(Size);
 				break;
 			default: 
-				uniqueStack = new StackArrayList<String>();
+				uniqueStack = new StackArrayList<Float>();
 				break;
 		}
 			

@@ -48,54 +48,100 @@ public class MyCalc {
 	
 	public String Evaluate(String Expression, String StackType) throws Exception {
 		StackInstanceCreator myStackCreator = new StackInstanceCreator();
-		IStack<String> myStack = myStackCreator.getInstance(StackType, Expression.split(" ").length);
+		IStack<Float> myStack = myStackCreator.getInstance(StackType, Expression.split(" ").length);
 		
-		 String[] separator=Expression.split("");
-	        String operators="";
-	        //Filtras el contenido del texto segun el tipo de caracte de psfix que tiene
-	        if(separator.length>5){
-	            for(int i = separator.length-1; i>=0;i-- ){
-	                String element=separator[i];
-	                if(element.equals("+")|element.equals("-")|element.equals("*")|element.equals("/")){
-	                    operators=operators+element;
-	                }else if(element.equals("0")|element.equals("1")|element.equals("2")|element.equals("3")|element.equals("4")|element.equals("5")|element.equals("6")|element.equals("7")|element.equals("8")|element.equals("9")){
-	                    myStack.push(element);
-	                }
-	            }
-	        }
-	        String[] operatorsList= operators.split("");
-	        float myCero = 0.0f;
+		float result;
+		float valA;
+		float valB;
+
+	    char actualChar;
+
+	    boolean haveValue;
+	    boolean haveOperator;
+
+	    List<Character> acceptedValues;
+	    List<Character> acceptedOperators;
+	    
+	    result = 0f;
+        valA = 0f;
+        valB = 0f;
+
+        actualChar = ' ';
+
+        haveOperator = false;
+        haveValue = false;
+
+        acceptedValues = new ArrayList<>(
+                List.of('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'));
+        acceptedOperators = new ArrayList<>(
+                List.of('*', '/', '+', '-'));
 	        
-	        for(int i = operatorsList.length-1; i>=0;i-- ){
-	            float digit1=Float.parseFloat(myStack.peek());
-	            myStack.pull();
-	            float digit2= Float.parseFloat(myStack.peek());
-	            myStack.pull();
-	            float result=0;
-	            switch(operatorsList[i]){
-	                case "+":
-	                    result=digit1+digit2;
-	                    myStack.push(result+"");
-	                    break;
-	                case "-":
-	                    result=digit1-digit2;
-	                    myStack.push(result+"");
-	                    break;
-	                case "*":
-	                    result=digit1*digit2;
-	                    myStack.push(result+"");
-	                    break;
-	                case "/":
-	                	if(digit2 == myCero) {
-	                		throw new Exception("Critical! 0 division.");
-	                	}
-	                    result=digit1/digit2;	
-	                    myStack.push(result+"");
-	                    break;
-	            }
-	        }
-	        
-	        return myStack.peek();
+		for (int i = 0; i <= Expression.length() - 1; i++) {
+
+            result = 0;
+            actualChar = Expression.charAt(i);
+            haveValue = acceptedValues.contains(actualChar);
+            haveOperator = acceptedOperators.contains(actualChar);
+
+            if (haveValue || haveOperator) {
+                if (haveValue) {
+                	float f = Character.getNumericValue(actualChar);
+                	myStack.push(f);
+                }
+                if (haveOperator) {
+                    valA = 0;
+                    valB = 0;
+
+                    try {
+                        valB = myStack.peek();
+                        myStack.pull();
+                        valA = myStack.peek();
+                        myStack.pull();
+                    } catch (Exception e) {
+
+                        while (!myStack.isEmpty()) {
+                        	myStack.pull();
+                        }
+
+                    	throw new Exception("Critical! Invalid Expression.");
+
+                    }
+                    switch (actualChar) {
+                        case '+':
+                        	myStack.push(valA + valB);
+                            break;
+                        case '-':
+                        	myStack.push(valA - valB);
+                            break;
+                        case '/':
+                            if (valB == 0) {
+                                while (!myStack.isEmpty()) {
+                                	myStack.pull();
+                                } 
+
+                                throw new Exception("Critical! 0 Division.");    
+                            }
+                            else {
+                            	myStack.push(valA / valB);
+                            }
+                            break;
+                            
+                        case '*':
+                        	myStack.push(valA * valB);
+                            break;
+                    }
+                }
+            } else if (actualChar != ' ') {
+            	throw new Exception("Critical! Invalid Expression.");
+            }
+
+        }
+
+        result = myStack.peek();
+        while (!myStack.isEmpty()) {
+        	myStack.pull();
+        }
+        return Float.toString(result);
 	}
 	
 	public void finalize() {
