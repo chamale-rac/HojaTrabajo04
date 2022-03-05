@@ -33,6 +33,7 @@ public class Main {
         
         
         while(!finishProgram) {
+        allCorrect = false;
         while(!allCorrect) {        	
 		try {
 			System.out.println("\nINSERT path of *.txt file:\n>> ");
@@ -83,7 +84,7 @@ public class Main {
             
             i++;
             System.out.println("[LINE " + Integer.toString(i) + "] " + line + " = "
-                    + result + "\n");
+                    + result);
             
         	}  catch (Exception e) {
     			System.out.println(e);
