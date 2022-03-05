@@ -39,9 +39,81 @@ public class MyCalc {
 	public String Convert(String Expression, String ListType) {
 		ListInstanceCreator myListCreator = new ListInstanceCreator();
 		IList<Character> myList = myListCreator.getInstance(ListType);
-		
-		
-		
+                Character[] chars= new Character[Expression.split(" ").length];
+                int count=0;
+                for(String cha: Expression.split(" ")){
+                    chars[count]=cha.charAt(0);
+                    count++;
+                }
+        
+                Expression.split(" ");
+                String expresion="";
+                boolean parren=false;
+                int content=0;
+                int contentA=0;
+                int contentAp=0;
+                int contentBp=0;
+                int contentB=0;
+                for(Character cha: chars){
+                    if(parren){
+                        if(cha.equals("+")|cha.equals("-")){
+                            myList.Insert(cha, contentA+contentB);
+                            contentA++;
+                            contentAp++;
+                            
+                        }else if(cha.equals("*")|cha.equals("/")){
+                                myList.Insert(cha, contentB);
+                                contentB++;
+                                contentBp++;
+                        }else if(cha.equals("0")|cha.equals("1")|cha.equals("2")|cha.equals("3")|cha.equals("4")|cha.equals("5")|cha.equals("6")|cha.equals("7")|cha.equals("8")|cha.equals("9")){
+                            expresion=expresion+cha+" ";
+                        } else if(cha.equals("(")){
+                                parren=false;
+                                while(contentBp>0&&contentAp>0){
+                                    if(contentBp>0){
+                                        expresion= expresion+myList.Get(contentB)+" ";
+                                        myList.Delete(contentB);
+                                        contentB--;
+                                        contentBp--;
+                                    }
+                                    else if(contentAp>0){
+                                        expresion= expresion+myList.Get(contentB+contentA)+" ";
+                                        myList.Delete(contentB+contentA);
+                                        contentA--;
+                                        contentAp--;
+                               
+                                    }
+                                    
+                                }
+                                
+                        }
+                    }
+                    else if(cha.equals("+")|cha.equals("-")){
+                            myList.Insert(cha, contentA+contentB);
+                            contentA++;   
+                    }else if(cha.equals("*")|cha.equals("/")){
+                                myList.Insert(cha, contentB);
+                                contentB++;
+                    }else if(cha.equals("0")|cha.equals("1")|cha.equals("2")|cha.equals("3")|cha.equals("4")|cha.equals("5")|cha.equals("6")|cha.equals("7")|cha.equals("8")|cha.equals("9")){
+                            expresion=expresion+cha+" ";
+                    } else if(cha.equals("(")){
+                        parren=true;
+                    }
+                }   
+                while(contentB>0&&contentA>0){
+                    if(contentB>0){
+                        expresion= expresion+myList.Get(contentB)+" ";
+                        myList.Delete(contentB);
+                        contentB--;
+                        
+                        }
+                    else if(contentA>0){
+                        expresion= expresion+myList.Get(contentB+contentA)+" ";
+                        myList.Delete(contentB+contentA);
+                        contentA--;         
+                    }
+                                    
+                }
 		return Expression;
 		
 	}
