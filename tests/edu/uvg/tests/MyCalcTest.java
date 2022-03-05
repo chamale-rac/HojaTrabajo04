@@ -15,10 +15,19 @@ import edu.uvg.program.MyCalc;
  */
 class MyCalcTest {
 
-	@Test
-	final void testCalculateWithParentesis() throws Exception {
-		MyCalc myCalc = new MyCalc();
-		System.out.println(myCalc.Convert("(1+2)*9", "1"));
 	
+	@Test
+	final void testCalculate() throws Exception {
+		MyCalc myCalc = new MyCalc();
+		assertEquals(myCalc.Calculate("1+2*9", "1", "1"), "19.0");
+		
+		String convert =  myCalc.Convert("1+2*9", "1");
+		String evaluate = myCalc.Evaluate("1 2 9 * +", "1");
+		
+		assertEquals(convert, "1 2 9 * + ");
+		assertEquals(evaluate, "19.0");
 	}
+	
 }
+
+
